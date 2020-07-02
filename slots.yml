@@ -1,0 +1,23 @@
+number: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+number_dd: [00, 01, 02, 03, 04, 05, 06, 07, 08, 09]
+letter: [a, b, c, d, e, f, g, h, i, j]
+env: [dev, uat, stg, prd, prod]
+env_long: [development, staging, production]
+region: [af, ap, ca, eu, me, na, sa, us]
+zone:
+  [
+    north,
+    east,
+    south,
+    west,
+    northeast,
+    northwest,
+    southeast,
+    southwest,
+    central,
+  ]
+stage: [alpha, beta, rc, stable]
+locality: [local, remote]
+internal: [internal, external]
+private: [prv, pub]
+private_long: [private, public]
