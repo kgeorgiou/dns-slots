@@ -2,4 +2,7 @@ module dns-slots
 
 go 1.14
 
-require gopkg.in/yaml.v2 v2.3.0
+require (
+	github.com/miekg/dns v1.1.29
+	gopkg.in/yaml.v2 v2.3.0
+)

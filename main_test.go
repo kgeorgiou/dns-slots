@@ -20,22 +20,22 @@ func TestTokenize(t *testing.T) {
 		{
 			"only dots",
 			"test.example.com",
-			[]string{"test", "example", "com"},
+			[]string{"test", ".", "example", ".", "com"},
 		},
 		{
 			"only hyphens",
 			"eu-east-1",
-			[]string{"eu", "east", "1"},
+			[]string{"eu", "-", "east", "-", "1"},
 		},
 		{
 			"mix dots-hyphens",
 			"eu-east-1.example.com",
-			[]string{"eu", "east", "1", "example", "com"},
+			[]string{"eu", "-", "east", "-", "1", ".", "example", ".", "com"},
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			actual := Tokenize(tc.Input)
+			actual := tokenize(tc.Input)
 			if !reflect.DeepEqual(tc.Expected, actual) {
 				t.Errorf("expected %v but got %v", tc.Expected, actual)
 			}
@@ -64,14 +64,14 @@ func TestMatchSlots(t *testing.T) {
 			"dev-local",
 			"dev-local.example.com",
 			[]string{"env", "locality"},
-			[]int{0, 1},
-			8,
+			[]int{0, 2}, // 0: dev, 1: -, 2: local
+			8,           // 4 * 2
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			tokens := Tokenize(tc.Input)
-			gotMatches, gotIndices, gotCombinations := MatchSlots(tokens, slots)
+			tokens := tokenize(tc.Input)
+			gotMatches, gotIndices, gotCombinations := matchSlots(tokens, slots)
 
 			if !reflect.DeepEqual(tc.WantMatches, gotMatches) {
 				t.Errorf("want %v but got %v", tc.WantMatches, gotMatches)
