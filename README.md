@@ -28,9 +28,9 @@
 (_____________________________________)
 ```
 
-Yet another tool to help with DNS enumeration.
+Yet another tool for DNS enumeration.
 
-In contrast to subdomain guessing tools, dns-slots needs to be fed with subdomains collected *a priori* in order make educated guesses to discover more.
+In contrast to subdomain guessing tools, dns-slots is fed with subdomains collected *a priori* in order to make educated guesses to discover more.
 
 For example if we know `dev-auth-1.example.com` is a valid subdomain, there's a good chance the following subdomains also exist: 
 - `dev-auth-2.example.com`
