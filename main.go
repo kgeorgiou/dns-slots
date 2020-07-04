@@ -24,12 +24,31 @@ type Config struct {
 	LookupDNS  bool
 }
 
+const googleDNS = "8.8.8.8:53"
+
+var usage = `Usage: dns-slots [options...] < domains-file
+
+Options:
+  -o  File to output slot machine results. Default is stdout.
+  -s  File tha contains the options for each slot. Default is slots-small.yml.
+  -v  Run in verbose mode.
+  -d  Do a DNS lookup on each slot machine result and output only those with DNS records.
+  -h  Print usage and exit.
+`
+
 func main() {
 	outputFile := flag.String("o", "", "-o output-file")
 	slotsFile := flag.String("s", "slots-small.yml", "-s slots-file")
 	verbose := flag.Bool("v", false, "")
 	lookupDNS := flag.Bool("d", false, "")
+	help := flag.Bool("h", false, "")
 	flag.Parse()
+
+	// show usage
+	if *help {
+		fmt.Fprint(os.Stdout, usage)
+		os.Exit(0)
+	}
 
 	conf := &Config{
 		OutputFile: *outputFile,
@@ -85,8 +104,8 @@ func spin(tokens []string, matches []string, indices []int, slots Slots, seen ma
 	seen[outcome] = true
 
 	if lookupDNS {
-		win, err := dnsRecordsExist(outcome, "8.8.8.8:53")
-		if err == nil && win {
+		exists, err := dnsRecordsExist(outcome, googleDNS)
+		if err == nil && exists {
 			// output winning result
 			fmt.Fprintln(output, outcome)
 		}
@@ -150,6 +169,20 @@ func tokenize(s string) []string {
 	return result
 }
 
+func dnsRecordsExist(fqdn, serverAddr string) (bool, error) {
+	var m dns.Msg
+	m.SetQuestion(dns.Fqdn(fqdn), dns.TypeA)
+	in, err := dns.Exchange(&m, serverAddr)
+	if err != nil {
+		return false, err
+	}
+	if len(in.Answer) == 0 {
+		return false, nil
+	}
+
+	return true, nil
+}
+
 func readSlotsFile(filename string) (Slots, error) {
 	yamlMap := map[string][]string{}
 
@@ -174,18 +207,4 @@ func readSlotsFile(filename string) (Slots, error) {
 	}
 
 	return res, nil
-}
-
-func dnsRecordsExist(fqdn, serverAddr string) (bool, error) {
-	var m dns.Msg
-	m.SetQuestion(dns.Fqdn(fqdn), dns.TypeA)
-	in, err := dns.Exchange(&m, serverAddr)
-	if err != nil {
-		return false, err
-	}
-	if len(in.Answer) == 0 {
-		return false, nil
-	}
-
-	return true, nil
 }
