@@ -64,7 +64,7 @@ $ dns-slots -o output.txt -d < known-domains.txt
 ## TO-DO
 - [ ] Spin on non clearly delimitted slots (e.g. auth**1**)
 - [ ] Smart-spin mode on sequence slots (e.g. 0, 1,2,3 and a,b,c)
-  - If "1" doesn't exist, then it's very likely subsequent numbers won't exisg either
+  - If "1" doesn't exist, then it's very likely subsequent numbers won't exist either
 - [ ] Add UTF-8 (rune) support
 - [ ] Create
   - [x] slots-small.yml
