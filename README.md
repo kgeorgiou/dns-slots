@@ -50,7 +50,9 @@ Usage: dns-slots [options...] < domains-file
 
 Options:
   -o  File to output slot machine results. Default is stdout.
-  -s  File tha contains the options for each slot. Default is slots-small.yml.
+  -s  File tha contains the options for each slot. Default is slots/small.yml.
+  -w  Number of parallelized workers. Default is 8.
+  -c  Number of CPU cores. Machine default is %d.
   -v  Run in verbose mode.
   -d  Do a DNS lookup on each slot machine result and output only those with DNS records.
   -h  Print usage and exit.

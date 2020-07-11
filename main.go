@@ -36,7 +36,7 @@ var usage = `Usage: dns-slots [options...] < domains-file
 
 Options:
   -o  File to output slot machine results. Default is stdout.
-  -s  File tha contains the options for each slot. Default is slots-small.yml.
+  -s  File tha contains the options for each slot. Default is slots/small.yml.
   -w  Number of parallelized workers. Default is 8.
   -c  Number of CPU cores. Machine default is %d.
   -v  Run in verbose mode.
@@ -46,7 +46,7 @@ Options:
 
 func main() {
 	outputFile := flag.String("o", "", "-o output-file")
-	slotsFile := flag.String("s", "slots-small.yml", "-s slots-file")
+	slotsFile := flag.String("s", "slots/small.yml", "-s slots-file")
 	workers := flag.Int("w", 8, "")
 	cpus := flag.Int("c", runtime.GOMAXPROCS(-1), "")
 	verbose := flag.Bool("v", false, "")
